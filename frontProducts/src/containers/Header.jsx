@@ -22,7 +22,7 @@ const Header = () => {
       };
 
       // Fetch products from RDS (FastAPI backend)
-      const rdsResponse = await axios.get("http://localhost:8000/products", { headers });
+      const rdsResponse = await axios.get("http://localhost:8080/products", { headers });
       setProductos(rdsResponse.data);
       console.log("RDS Products:", rdsResponse.data);
     } catch (error) {
@@ -60,7 +60,7 @@ const Header = () => {
       };
 
       // Delete product from RDS (FastAPI backend)
-      const rdsResponse = await axios.delete(`http://localhost:8000/products/${id_product}`, { headers });
+      const rdsResponse = await axios.delete(`http://localhost:8080/products/${id_product}`, { headers });
       console.log("Deleted from RDS:", rdsResponse.data);
 
       // Remove the product from the state

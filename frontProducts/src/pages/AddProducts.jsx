@@ -52,7 +52,7 @@ const AddProducts = ({ crearProductos }) => {
       try {
     // 👇 Solo llamada al backend en Postgres
     const response = await axios.post(
-      "http://localhost:8000/products/",
+      "http://localhost:8080/products/",
       productToSend,
       {
         headers: {

@@ -28,19 +28,11 @@ const EditarProductos = ({ cerrarModalActualizar, selectProduct, cargarProductos
 
     // Cambia la URL para apuntar directo al backend FastAPI
     const rdsResponse = await axios.put(
-      `http://localhost:8000/products/${id_product}`,
+      `http://localhost:8080/products/${id_product}`,
       productoEdit,
       { headers }
     );
     console.log("Updated in RDS:", rdsResponse.data);
-
-    // Si tienes DynamoDB, ajusta la URL también (opcional)
-    // const dynamoResponse = await axios.put(
-    //   `http://localhost:8000/products-dynamo/${id_product}`,
-    //   productoEdit,
-    //   { headers }
-    // );
-    // console.log("Updated in DynamoDB:", dynamoResponse.data);
 
     await cargarProductos();
     setProductEdit({
