@@ -177,17 +177,17 @@ ansible-inventory -i inventory.ini --list
 *FASTAPI docs*
 
 ### Logs de Contenedores
-```bash
+
 # Ejemplo de logs exitosos
 <img width="1600" height="900" alt="image" src="https://github.com/user-attachments/assets/9a79fd0a-bdb5-408a-ad0e-903513dadd57" />
 
-```
+
 
 ### Estado de Servicios
-```bash
+
 # Ejemplo de salida de docker ps
 <img width="595" height="171" alt="image" src="https://github.com/user-attachments/assets/dd595bcb-75f6-49de-b882-d2ed9038b027" />
----
+
 
 
 **Error: Contenedor no puede conectar a la base de datos**
