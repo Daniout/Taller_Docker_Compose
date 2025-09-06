@@ -70,7 +70,7 @@ docker-compose up -d
 docker-compose logs -f
 ```
 
-### Paso 4: Verificar el Despliegue
+### Paso 2: Verificar el Despliegue
 ```bash
 # Verificar que todos los contenedores estén corriendo
 docker-compose ps
@@ -79,7 +79,7 @@ docker-compose ps
 docker-compose exec backend curl http://localhost:8080/health
 ```
 
-### Paso 5: Acceder a la Aplicación
+### Paso 3: Acceder a la Aplicación
 - **Frontend**: http://localhost:3000
 - **Backend API**: http://localhost:8080
 - **Documentación API**: http://localhost:8080/docs (si tienes Swagger)
@@ -177,17 +177,16 @@ ansible-inventory -i inventory.ini --list
 *FASTAPI docs*
 
 ### Logs de Contenedores
-```bash
+
 # Ejemplo de logs exitosos
 <img width="1600" height="900" alt="image" src="https://github.com/user-attachments/assets/9a79fd0a-bdb5-408a-ad0e-903513dadd57" />
 
-```
 
 ### Estado de Servicios
-```bash
+
 # Ejemplo de salida de docker ps
 <img width="595" height="171" alt="image" src="https://github.com/user-attachments/assets/dd595bcb-75f6-49de-b882-d2ed9038b027" />
----
+
 
 
 **Error: Contenedor no puede conectar a la base de datos**
