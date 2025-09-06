@@ -5,7 +5,6 @@ from app.database.database import Base, engine
 
 app = FastAPI()
 
-app.include_router(router_product)
 
 allow_origins = [
     "http://localhost",   # frontend en Docker
@@ -14,17 +13,19 @@ allow_origins = [
 ]
 
 
-@app.get("/health")
-def health_check():
-    return {"status": "ok"}
-
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allow_origins,
     allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "DELETE"],
-    allow_headers=["Authorization", "Content-Type"],
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
+
+app.include_router(router_product)
+
+@app.get("/health")
+def health_check():
+    return {"status": "ok"}
 
 Base.metadata.create_all(bind=engine)
