@@ -41,7 +41,7 @@ services:
     build: 
       context: ./frontProducts
       args:
-        - VITE_BACKEND_URL=http://backend:8080
+        - VITE_BACKEND_URL=http://localhost:8080
     container_name: frontend_app
     restart: always
     depends_on:
