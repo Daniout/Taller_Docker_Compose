@@ -7,7 +7,7 @@ app = FastAPI()
 
 
 allow_origins = [
-    "http://localhost",   # frontend en Docker
+    "http://localhost:3000",   # frontend en Docker
     "http://localhost:5173",  # desarrollo local (vite)
     "https://midominio.com",  # producción
 ]
