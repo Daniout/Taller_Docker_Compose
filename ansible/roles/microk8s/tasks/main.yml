@@ -1,0 +1,34 @@
+---
+- name: Install snapd
+  apt:
+    name: snapd
+    state: present
+    update_cache: yes
+
+- name: Ensure snapd is running
+  systemd:
+    name: snapd
+    state: started
+    enabled: yes
+
+- name: Install microk8s
+  snap:
+    name: microk8s
+    classic: yes
+    state: present
+
+- name: Add user to microk8s group
+  user:
+    name: "{{ ansible_user | default('sysadmin') }}"
+    groups: microk8s
+    append: yes
+
+- name: Enable microk8s addons (dns + hostpath-storage)
+  command: microk8s enable dns hostpath-storage
+  args:
+    warn: false
+
+- name: Wait for microk8s to be ready
+  command: microk8s status --wait-ready
+  register: microk8s_status
+  changed_when: false

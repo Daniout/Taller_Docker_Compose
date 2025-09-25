@@ -1,0 +1,33 @@
+---
+- name: Ensure remote app dir exists
+  file:
+    path: /home/{{ ansible_user | default('sysadmin') }}/apps/backProducts
+    state: directory
+    owner: "{{ ansible_user | default('sysadmin') }}"
+    mode: '0755'
+
+- name: Copy backend app to remote
+  copy:
+    src: "{{ playbook_dir }}/../apps/backProducts/"
+    dest: /home/{{ ansible_user | default('sysadmin') }}/apps/backProducts/
+    owner: "{{ ansible_user | default('sysadmin') }}"
+    mode: '0755'
+    recurse: yes
+
+- name: Build backend Docker image on remote
+  command: docker build -t backend-app:latest /home/{{ ansible_user | default('sysadmin') }}/apps/backProducts
+  args:
+    chdir: /home/{{ ansible_user | default('sysadmin') }}/apps/backProducts
+
+- name: Save backend image to tar
+  command: docker save backend-app:latest -o /tmp/backend-app.tar
+
+- name: Import backend image into microk8s (containerd)
+  command: microk8s ctr image import /tmp/backend-app.tar
+
+- name: Ensure remote k8s dir exists
+  file:
+    path: /home/{{ ansible_user | default('sysadmin') }}/k8s
+    state: directory
+    owner: "{{ ansible_user | default('sysadmin') }}"
+    mode: '0755'

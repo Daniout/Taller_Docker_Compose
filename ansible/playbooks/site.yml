@@ -1,0 +1,10 @@
+---
+- hosts: controller
+  become: true
+  gather_facts: true
+  roles:
+    - common
+    - microk8s
+    - backend
+    - frontend
+    - kubernetes
