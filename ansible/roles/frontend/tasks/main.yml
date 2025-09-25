@@ -12,7 +12,6 @@
     dest: /home/{{ ansible_user | default('sysadmin') }}/apps/frontProducts/
     owner: "{{ ansible_user | default('sysadmin') }}"
     mode: '0755'
-    recurse: yes
 
 - name: Build frontend Docker image on remote
   command: docker build -t frontend-app:latest /home/{{ ansible_user | default('sysadmin') }}/apps/frontProducts
@@ -23,4 +22,4 @@
   command: docker save frontend-app:latest -o /tmp/frontend-app.tar
 
 - name: Import frontend image into microk8s
-  command: microk8s ctr image import /tmp/frontend-app.tar
+  command: /snap/bin/microk8s ctr image import /tmp/frontend-app.tar

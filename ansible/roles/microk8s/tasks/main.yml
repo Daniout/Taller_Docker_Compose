@@ -23,12 +23,16 @@
     groups: microk8s
     append: yes
 
+- name: Start microk8s
+  become: yes
+  command: /snap/bin/microk8s start
+
 - name: Enable microk8s addons (dns + hostpath-storage)
-  command: microk8s enable dns hostpath-storage
-  args:
-    warn: false
+  become: yes
+  command: /snap/bin/microk8s enable dns hostpath-storage
 
 - name: Wait for microk8s to be ready
-  command: microk8s status --wait-ready
+  become: yes
+  command: /snap/bin/microk8s status --wait-ready
   register: microk8s_status
   changed_when: false

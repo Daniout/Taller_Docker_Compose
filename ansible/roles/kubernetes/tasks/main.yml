@@ -5,9 +5,8 @@
     dest: /home/{{ ansible_user | default('sysadmin') }}/k8s/
     owner: "{{ ansible_user | default('sysadmin') }}"
     mode: '0644'
-    recurse: yes
 
 - name: Apply k8s manifests (all)
-  command: microk8s kubectl apply -f /home/{{ ansible_user | default('sysadmin') }}/k8s/
+  command: /snap/bin/microk8s kubectl apply -f /home/{{ ansible_user | default('sysadmin') }}/k8s/
   args:
     chdir: /home/{{ ansible_user | default('sysadmin') }}/k8s/
