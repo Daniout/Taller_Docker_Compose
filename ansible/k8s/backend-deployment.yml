@@ -19,7 +19,10 @@ spec:
         image: backend:latest
         imagePullPolicy: IfNotPresent
         ports:
-        - containerPort: 8000
+        - containerPort: 8080
+        env:
+        - name: DATABASE_URL
+          value: "postgresql://user:password@postgres-service:5432/productsdb"
 ---
 apiVersion: v1
 kind: Service

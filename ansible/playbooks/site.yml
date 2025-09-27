@@ -5,6 +5,7 @@
   roles:
     - common
     - microk8s
+    - kubernetes
     - backend
     - frontend
-    - kubernetes
+    
