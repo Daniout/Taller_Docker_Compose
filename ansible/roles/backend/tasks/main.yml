@@ -6,9 +6,7 @@
     version: ansible_docker_microk8s
 
 - name: Construir imagen backend
-  ansible.builtin.command:
-    cmd: docker build -t backend:latest .
-    chdir: /opt/app/backend/apps/backProducts
+  command: docker build -t backend:latest /opt/app/ansible/apps/backProducts
 
 - name: Guardar imagen backend como tar
   become: true
