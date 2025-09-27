@@ -12,7 +12,7 @@
     name: backend
     tag: latest
     build:
-      path: /opt/app/backend
+      path: "{{ playbook_dir }}/../apps/backProducts"
     source: build
 
 - name: Guardar imagen backend como tar
