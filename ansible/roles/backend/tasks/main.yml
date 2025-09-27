@@ -1,19 +1,20 @@
 ---
-- name: Clonar repositorio
+- name: Clonar repositorio backend
   ansible.builtin.git:
-    repo: "https://github.com/Daniout/Taller_Docker_Compose.git"
-    dest: /opt/app
-    version: ansible_docker_microk8s
+    repo: "https://github.com/tuusuario/tu-repo.git"
+    dest: /opt/app/backend
+    version: main
 
 - name: Construir imagen backend
-  community.docker.docker_image:
-    build:
-      path: /opt/app/apps/backProducts
-    name: backend_app
-    tag: latest
+  ansible.builtin.command:
+    cmd: docker build -t backend:latest .
+    chdir: /opt/app/backend
 
-- name: Guardar imagen backend en tar
-  command: docker save backend_app:latest -o /tmp/backend.tar
+- name: Guardar imagen backend como tar
+  ansible.builtin.command:
+    cmd: docker save backend:latest -o /tmp/backend-app.tar
 
-- name: Importar imagen backend en MicroK8s
-  command: microk8s ctr image import /tmp/backend.tar
+- name: Importar imagen backend en microk8s
+  become: yes
+  ansible.builtin.command:
+    cmd: /snap/bin/microk8s ctr image import /tmp/backend-app.tar
