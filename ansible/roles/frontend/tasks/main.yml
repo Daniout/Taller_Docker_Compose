@@ -4,16 +4,12 @@
     repo: "https://github.com/Daniout/Taller_Docker_Compose.git"
     dest: /opt/app/frontend
     version: ansible_docker_microk8s
-    update: yes
-    force: yes
 
 - name: Construir imagen frontend
-  community.docker.docker_image:
-    name: frontend
-    tag: latest
-    build:
-      path: "{{ playbook_dir }}/../apps/frontProducts"
-    source: build
+  ansible.builtin.command:
+    cmd: docker build -t frontend:latest .
+    chdir: /opt/app/frontend/apps/frontProducts
+
 
 - name: Guardar imagen frontend en tar
   become: true

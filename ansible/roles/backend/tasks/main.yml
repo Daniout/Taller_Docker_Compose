@@ -3,17 +3,12 @@
   ansible.builtin.git:
     repo: "https://github.com/Daniout/Taller_Docker_Compose.git"
     dest: /opt/app/backend
-    version: "ansible_docker_microk8s"
-    update: yes
-    force: yes
+    version: ansible_docker_microk8s
 
 - name: Construir imagen backend
-  community.docker.docker_image:
-    name: backend
-    tag: latest
-    build:
-      path: "{{ playbook_dir }}/../apps/backProducts"
-    source: build
+  ansible.builtin.command:
+    cmd: docker build -t backend:latest .
+    chdir: /opt/app/backend/apps/backProducts
 
 - name: Guardar imagen backend como tar
   become: true
