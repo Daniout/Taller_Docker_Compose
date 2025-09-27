@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: frontend:latest
+        image: frontend_app:latest
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 5173
@@ -32,4 +32,5 @@ spec:
     - protocol: TCP
       port: 5173
       targetPort: 5173
+      nodePort: 31681
   type: NodePort

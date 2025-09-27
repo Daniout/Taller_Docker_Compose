@@ -1,25 +1,13 @@
 ---
-- name: Ensure remote app dir exists (frontend)
-  file:
-    path: /home/{{ ansible_user | default('sysadmin') }}/apps/frontProducts
-    state: directory
-    owner: "{{ ansible_user | default('sysadmin') }}"
-    mode: '0755'
+- name: Construir imagen frontend
+  community.docker.docker_image:
+    build:
+      path: /opt/app/apps/frontProducts
+    name: frontend_app
+    tag: latest
 
-- name: Copy frontend app to remote
-  copy:
-    src: "{{ playbook_dir }}/../apps/frontProducts/"
-    dest: /home/{{ ansible_user | default('sysadmin') }}/apps/frontProducts/
-    owner: "{{ ansible_user | default('sysadmin') }}"
-    mode: '0755'
+- name: Guardar imagen frontend en tar
+  command: docker save frontend_app:latest -o /tmp/frontend.tar
 
-- name: Build frontend Docker image on remote
-  command: docker build -t frontend-app:latest /home/{{ ansible_user | default('sysadmin') }}/apps/frontProducts
-  args:
-    chdir: /home/{{ ansible_user | default('sysadmin') }}/apps/frontProducts
-
-- name: Save frontend image to tar
-  command: docker save frontend-app:latest -o /tmp/frontend-app.tar
-
-- name: Import frontend image into microk8s
-  command: /snap/bin/microk8s ctr image import /tmp/frontend-app.tar
+- name: Importar imagen frontend en MicroK8s
+  command: microk8s ctr image import /tmp/frontend.tar

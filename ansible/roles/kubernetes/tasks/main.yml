@@ -1,4 +1,11 @@
 ---
+- name: Ensure remote k8s dir exists
+  file:
+    path: /home/{{ ansible_user | default('sysadmin') }}/k8s
+    state: directory
+    owner: "{{ ansible_user | default('sysadmin') }}"
+    mode: '0755'
+
 - name: Copy k8s manifests to remote
   copy:
     src: "{{ playbook_dir }}/../k8s/"

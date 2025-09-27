@@ -1,41 +1,19 @@
 ---
-- name: Ensure remote app dir exists
-  file:
-    path: /home/{{ ansible_user | default('sysadmin') }}/apps/backProducts
-    state: directory
-    owner: "{{ ansible_user | default('sysadmin') }}"
-    mode: '0755'
+- name: Clonar repositorio
+  ansible.builtin.git:
+    repo: "https://github.com/Daniout/Taller_Docker_Compose.git"
+    dest: /opt/app
+    version: ansible_docker_microk8s
 
-- name: Ensure rsync is installed on remote
-  become: true
-  apt:
-    name: rsync
-    state: present
-    update_cache: yes
+- name: Construir imagen backend
+  community.docker.docker_image:
+    build:
+      path: /opt/app/apps/backProducts
+    name: backend_app
+    tag: latest
 
-- name: Copy backend app to remote
-  become: false   # run rsync locally without sudo
-  delegate_to: localhost
-  synchronize:
-     src: "{{ playbook_dir }}/../apps/backProducts/"
-     dest: "/home/{{ ansible_user | default('sysadmin') }}/apps/backProducts/"
-     recursive: yes
+- name: Guardar imagen backend en tar
+  command: docker save backend_app:latest -o /tmp/backend.tar
 
-- name: Build backend Docker image on remote
-  command: docker build -t backend-app:latest /home/{{ ansible_user | default('sysadmin') }}/apps/backProducts
-  args:
-    chdir: /home/{{ ansible_user | default('sysadmin') }}/apps/backProducts
-
-- name: Save backend image to tar
-  command: docker save backend-app:latest -o /tmp/backend-app.tar
-
-- name: Import backend image into microk8s (containerd)
-  become: yes
-  command: /snap/bin/microk8s ctr image import /tmp/backend-app.tar
-
-- name: Ensure remote k8s dir exists
-  file:
-    path: /home/{{ ansible_user | default('sysadmin') }}/k8s
-    state: directory
-    owner: "{{ ansible_user | default('sysadmin') }}"
-    mode: '0755'
+- name: Importar imagen backend en MicroK8s
+  command: microk8s ctr image import /tmp/backend.tar
