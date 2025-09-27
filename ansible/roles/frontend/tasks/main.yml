@@ -6,9 +6,7 @@
     version: ansible_docker_microk8s
 
 - name: Construir imagen frontend
-  ansible.builtin.command:
-    cmd: docker build -t frontend:latest .
-    chdir: /opt/app/frontend/apps/frontProducts
+  command: docker build -t frontend:latest /opt/app/ansible/apps/frontProducts
 
 
 - name: Guardar imagen frontend en tar
