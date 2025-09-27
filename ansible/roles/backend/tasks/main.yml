@@ -9,10 +9,11 @@
 
 - name: Construir imagen backend
   community.docker.docker_image:
-    build:
-      path: /opt/app/backend
     name: backend
     tag: latest
+    build:
+      path: /opt/app/backend
+    source: build
 
 - name: Guardar imagen backend como tar
   become: true
