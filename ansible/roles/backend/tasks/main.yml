@@ -8,15 +8,18 @@
     force: yes
 
 - name: Construir imagen backend
-  ansible.builtin.command:
-    cmd: docker build -t backend:latest .
-    chdir: /opt/app/backend
+  community.docker.docker_image:
+    build:
+      path: /opt/app/backend
+    name: backend
+    tag: latest
 
 - name: Guardar imagen backend como tar
+  become: true
   ansible.builtin.command:
     cmd: docker save backend:latest -o /tmp/backend-app.tar
 
 - name: Importar imagen backend en microk8s
-  become: yes
+  become: true
   ansible.builtin.command:
     cmd: /snap/bin/microk8s ctr image import /tmp/backend-app.tar
